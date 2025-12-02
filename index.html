@@ -309,14 +309,6 @@
                     </div>
                     
                     <div class="input-group">
-                        <label>Сотрудников в процессе</label>
-                        <div class="input-wrapper">
-                            <input type="text" inputmode="numeric" id="inp5" value="6">
-                            <span class="input-unit">чел.</span>
-                        </div>
-                    </div>
-                    
-                    <div class="input-group">
                         <label>Стоимость внедрения системы (₽)</label>
                         <div class="input-wrapper">
                             <input type="text" inputmode="numeric" id="inp6" value="100 000 000">
@@ -344,7 +336,7 @@
                         <div class="card-formula-content" id="fContentAnnual">
                             <div class="formula-label">Формула:</div>
                             <div class="formula-block">
-                                Экономия = (Время_бумага − Время_электр) ÷ 60 × Ставка × Наряды × Сотрудники
+                                Экономия = (Время_бумага − Время_электр) ÷ 60 × Ставка × Наряды
                             </div>
                             <div class="formula-label">Подставляем:</div>
                             <div class="formula-values" id="fValsAnnual">—</div>
@@ -457,7 +449,7 @@
                         <div class="formula-content" id="fContent">
                             <div class="formula-label">Формула:</div>
                             <div class="formula-block">
-                                Экономия = (Время_бумага − Время_электр) ÷ 60 × Ставка × Наряды × Сотрудники
+                                Экономия = (Время_бумага − Время_электр) ÷ 60 × Ставка × Наряды
                             </div>
                             
                             <div class="formula-label">Подставляем значения:</div>
@@ -609,7 +601,7 @@
             var paperT = getNum("inp2");
             var digitalT = getNum("inp3");
             var rate = getNum("inp4");
-            var empl = getNum("inp5");
+            var empl = 1;
             var projectCost = getNum("inp6");
             
             var savedMin = (paperT - digitalT) * permits;
@@ -657,11 +649,10 @@
                 "(" + paperT + " <span class='param-hint'>(бумага)</span> − " + 
                 digitalT + " <span class='param-hint'>(электр.)</span>) ÷ 60 × " +
                 fmt(rate) + " <span class='param-hint'>(ставка)</span> × " +
-                fmt(permits) + " <span class='param-hint'>(наряды)</span> × " +
-                empl + " <span class='param-hint'>(сотр.)</span>";
+                fmt(permits) + " <span class='param-hint'>(наряды)</span>";
             
             document.getElementById("fRes").innerHTML = 
-                "(" + paperT + " − " + digitalT + ") ÷ 60 × " + fmt(rate) + " × " + fmt(permits) + " × " + empl + 
+                "(" + paperT + " − " + digitalT + ") ÷ 60 × " + fmt(rate) + " × " + fmt(permits) + 
                 " = <strong style='color:#059669'>" + fmt(laborSave) + " ₽</strong>";
             
             document.getElementById("c1").classList.remove("blurred");
@@ -683,7 +674,7 @@
             
             // Формула для Годовой экономии
             document.getElementById("fValsAnnual").innerHTML = 
-                "(" + paperT + " − " + digitalT + ") ÷ 60 × " + fmt(rate) + " × " + fmt(permits) + " × " + empl;
+                "(" + paperT + " − " + digitalT + ") ÷ 60 × " + fmt(rate) + " × " + fmt(permits);
             document.getElementById("fResAnnual").innerHTML = 
                 "<strong style='color:#059669'>" + fmt(annual) + " ₽</strong>";
             
