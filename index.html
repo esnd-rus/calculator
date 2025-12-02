@@ -64,6 +64,38 @@
             font-size: 14px;
         }
         
+        .activities-hint { margin-top: 8px; }
+        .activities-toggle {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 12px;
+            cursor: pointer;
+            padding: 4px 0;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .activities-toggle:hover { color: #374151; }
+        .activities-content {
+            display: none;
+            margin-top: 8px;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+        .activities-content.open { display: block; }
+        .activities-group { margin-bottom: 10px; }
+        .activities-group:last-child { margin-bottom: 0; }
+        .activities-group strong { color: #374151; font-size: 12px; }
+        .activities-group ul {
+            margin: 4px 0 0 0;
+            padding-left: 20px;
+            color: #6b7280;
+        }
+        .activities-group li { margin-bottom: 2px; }
+        
         .calculate-btn {
             width: 100%;
             padding: 16px;
@@ -226,16 +258,46 @@
                     </div>
                     
                     <div class="input-group">
-                        <label>Время на согласование наряда на бумаге (мин)</label>
+                        <label>Полный цикл НД на бумаге (от создания до начала работ), мин</label>
                         <div class="input-wrapper">
                             <input type="text" inputmode="numeric" id="inp2" value="120">
                         </div>
                     </div>
                     
                     <div class="input-group">
-                        <label>Время на согласование электронного наряда (мин)</label>
+                        <label>Полный цикл электронного НД (от создания до начала работ), мин</label>
                         <div class="input-wrapper">
                             <input type="text" inputmode="numeric" id="inp3" value="60">
+                        </div>
+                        <div class="activities-hint">
+                            <button class="activities-toggle" id="activitiesBtn" type="button">
+                                <span id="activitiesIcon">➕</span> Показать состав активностей
+                            </button>
+                            <div class="activities-content" id="activitiesContent">
+                                <div class="activities-group">
+                                    <strong>Согласование НД:</strong>
+                                    <ul>
+                                        <li>Создание НД</li>
+                                        <li>Добавление приложения</li>
+                                        <li>Согласование ОТиПБ</li>
+                                        <li>Регистрация в журнале</li>
+                                        <li>Заверение</li>
+                                        <li>Проверка на конфликтные работы</li>
+                                        <li>Утверждение</li>
+                                        <li>Формирование списка на завтра</li>
+                                    </ul>
+                                </div>
+                                <div class="activities-group">
+                                    <strong>Выдача НД:</strong>
+                                    <ul>
+                                        <li>Согласование Оператором</li>
+                                        <li>Проверка на Конфликтные работы</li>
+                                        <li>Выдача</li>
+                                        <li>Приём</li>
+                                        <li>Запись в журнале</li>
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     
@@ -353,11 +415,11 @@
                         </div>
                     </div>
                     
-                    <!-- Рост производительности -->
+                    <!-- Рост производительности труда -->
                     <div class="result-card orange blurred" id="c4">
                         <div class="result-icon">🚀</div>
                         <div class="result-value" id="r4">—</div>
-                        <div class="result-title">Рост производительности</div>
+                        <div class="result-title">Рост производительности труда</div>
                         <button class="card-formula-btn" id="prodFormulaBtn">
                             <span id="tIconProd">➕</span>
                         </button>
@@ -452,7 +514,8 @@
                             • Исключение ошибок ручного заполнения<br>
                             • Автоматическая проверка полноты данных<br>
                             • Контроль сроков действия допусков<br>
-                            • Исключение потери документов
+                            • Исключение потери документов<br>
+                            • Визуализация и проверка конфликтных работ
                         </div>
                         
                         <!-- Поиск в архиве -->
@@ -630,7 +693,7 @@
             document.getElementById("fResTime").innerHTML = 
                 "<strong style='color:#7c3aed'>" + fmt(Math.round(savedHrs)) + " ч.</strong> (" + fmt(Math.round(savedMin)) + " мин)";
             
-            // Формулы для Рост производительности
+            // Формулы для Рост производительности труда
             document.getElementById("fValsProd").innerHTML = 
                 "(" + paperT + " − " + digitalT + ") ÷ " + paperT + " × 100%";
             document.getElementById("fResProd").innerHTML = 
@@ -672,6 +735,19 @@
         document.getElementById("paybackFormulaBtn").addEventListener("click", toggleFormulaPayback);
         document.getElementById("timeFormulaBtn").addEventListener("click", toggleFormulaTime);
         document.getElementById("prodFormulaBtn").addEventListener("click", toggleFormulaProd);
+        document.getElementById("activitiesBtn").addEventListener("click", toggleActivities);
+        
+        function toggleActivities() {
+            var content = document.getElementById("activitiesContent");
+            var icon = document.getElementById("activitiesIcon");
+            if (content.classList.contains("open")) {
+                content.classList.remove("open");
+                icon.textContent = "➕";
+            } else {
+                content.classList.add("open");
+                icon.textContent = "➖";
+            }
+        }
         
         function toggleFormulaAnnual() {
             var content = document.getElementById("fContentAnnual");
